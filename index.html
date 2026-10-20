@@ -244,7 +244,12 @@ button {
     <main class="conteudo">
 
         <section class="tela" id="tela">
-
+<img
+    id="imagemInicial"
+    src="https://www.candidorodrigues.sp.gov.br/uploads/images/17660dfba17d0ddf9ba3dcfb60606257.png"
+    alt="Abertura da urna"
+    style="width: 100%; max-height: 250px; object-fit: contain;"
+>
     <div class="titulo" id="tituloCargo">
         ELEIÇÃO PARA PRESIDENTE
     </div>
@@ -849,8 +854,25 @@ function atualizarResultados() {
 // INICIALIZAÇÃO
 // ========================================
 
-atualizarTela();
+// Mostra a imagem de abertura por 1 segundo
+const imagemInicial = document.getElementById("imagemInicial");
+
+document.getElementById("tituloCargo").style.display = "none";
+document.getElementById("numero").style.display = "none";
+document.getElementById("candidato").style.display = "none";
+document.getElementById("mensagem").style.display = "none";
+
 atualizarResultados();
+
+setTimeout(() => {
+    imagemInicial.style.display = "none";
+
+    document.getElementById("tituloCargo").style.display = "";
+    document.getElementById("numero").style.display = "";
+    document.getElementById("mensagem").style.display = "";
+
+    atualizarTela();
+}, 1000);
 
 </script>
 
