@@ -1,153 +1,861 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Urna Eletrônica</title>
 
-  <title>Mario</title>
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+body {
+    min-height: 100vh;
+    background: #222;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+}
+
+.urna {
+    width: 100%;
+    max-width: 1200px;
+    background: #d9d9d9;
+    padding: clamp(8px, 2vw, 25px);
+    border-radius: 15px;
+    box-shadow: 0 15px 40px #0008;
+}
+
+.topo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.topo h1 {
+    font-size: clamp(16px, 3vw, 28px);
+}
+
+.topo p {
+    color: #555;
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.conteudo {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+}
+
+.tela {
+    flex: 1;
+    min-width: 0;
+    min-height: 300px;
+    background: #eee;
+    border: 5px solid #333;
+    padding: clamp(8px, 2vw, 25px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.titulo {
+    font-size: clamp(10px, 1.8vw, 18px);
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.numero {
+    font-size: clamp(22px, 4vw, 40px);
+    letter-spacing: 3px;
+    border-bottom: 2px solid #222;
+    width: 100%;
+    max-width: 280px;
+    min-height: 40px;
+    margin-bottom: 20px;
+    overflow-wrap: anywhere;
+}
+
+.candidato {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.candidato img {
+    width: clamp(55px, 10vw, 110px);
+    height: clamp(65px, 12vw, 130px);
+    object-fit: cover;
+    border: 2px solid #222;
+}
+
+.dados {
+    font-size: clamp(10px, 1.7vw, 16px);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.dados strong {
+    font-size: clamp(13px, 2vw, 22px);
+}
+
+.mensagem {
+    font-size: clamp(12px, 2vw, 22px);
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+.painel {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+}
+
+.teclado {
+    background: #222;
+    padding: clamp(6px, 1.5vw, 15px);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(4px, 1vw, 10px);
+}
+
+.tecla {
+    min-width: 0;
+    height: clamp(38px, 8vw, 65px);
+    border: none;
+    border-radius: 6px;
+    background: #111;
+    color: white;
+    font-size: clamp(16px, 3vw, 24px);
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px #000;
+}
+
+.tecla:active {
+    transform: translateY(3px);
+    box-shadow: none;
+}
+
+.funcoes {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+button {
+    font-family: inherit;
+}
+
+.funcoes button {
+    width: 100%;
+    padding: clamp(8px, 1.5vw, 15px) 3px;
+    font-size: clamp(9px, 1.6vw, 14px);
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+.branco {
+    background: white;
+    color: black;
+    border: 1px solid #999 !important;
+}
+
+.corrige {
+    background: #e5a900;
+    color: #111;
+}
+
+.confirma {
+    background: #159447;
+    color: white;
+}
+
+.resultado {
+    margin-top: 15px;
+    background: #111;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+    display: none;
+}
+
+.resultado h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.resultado h3 {
+    margin: 18px 0 7px;
+    color: #9debb8;
+}
+
+.resultado p {
+    margin: 6px 0;
+}
+
+@media (max-width: 380px) {
+    .conteudo {
+        gap: 5px;
     }
 
-    .game-board {
-      width: 80%;
-      height: 500px;
-      border: 1px solid #333;
-      border-bottom: 25px solid green;
-      background: linear-gradient(#87CEEB, #E0F6EF);
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
+    .tela {
+        min-height: 260px;
+        border-width: 3px;
     }
 
-    .pipe {
-      position: absolute;
-      bottom: 0px;
-      width: 80px;
-      height: 80px;
-
-      animation: pipe-animation 1.5s infinite linear;
+    .teclado {
+        padding: 5px;
+        gap: 4px;
     }
 
-    .mario {
-      width: 120px;
-      position: absolute;
-      bottom: 0px;
+    .tecla {
+        height: 35px;
     }
-
-    .jump {
-      animation: jump 1s ease-out;
-    }
-  @media (max-width: 768px) {
-  .pipe {
-    width: 40px;
-    height: 60px;
-  }
-  .mario { 
-    width: 109px;
-    height: 100px;
-  }
-  }
-    @keyframes pipe-animation {
-      from {
-        right: -80px;
-      }
-
-      to {
-        right: 100%;
-      }
-    }
-
-    @keyframes jump {
-      0% {
-        bottom: 0;
-      }
-
-      40% {
-        bottom: 160px;
-      }
-
-      50% {
-        bottom: 160px;
-      }
-
-      60% {
-        bottom: 160px;
-      }
-
-      100% {
-        bottom: 0;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <div class="game-board">
+<div class="urna">
 
-    <img src="https://e7.pngegg.com/pngimages/336/299/png-clipart-green-super-mario-tunnel-pipe-illustration-super-mario-3d-world-super-mario-3d-land-super-mario-bros-new-super-mario-bros-pipe-super-mario-bros-waste-containment.png"
-      class="pipe">
+    <header class="topo">
+        <h1>🗳️ URNA ELETRÔNICA</h1>
+        <p>Simulação educacional — não oficial</p>
+    </header>
 
-    <img src="https://media.tenor.com/UkvleU1dQK4AAAAj/2d-mario-running.gif"
-      class="mario">
+    <main class="conteudo">
 
-  </div>
+        <section class="tela" id="tela">
 
-  <script>
-    const mario = document.querySelector(".mario");
-    const pipe = document.querySelector(".pipe");
+            <div class="titulo" id="tituloCargo">
+                ELEIÇÃO PARA PRESIDENTE
+            </div>
 
-    const jump = () => {
+            <div id="numero" class="numero"></div>
 
-      mario.classList.add("jump");
+            <div id="candidato" class="candidato">
+                <img id="foto" src="" alt="Foto do candidato">
 
-      setTimeout(() => {
-        mario.classList.remove("jump");
-      }, 1000);
+                <div class="dados">
+                    <p><strong id="nome"></strong></p>
+                    <p>Número: <span id="numeroCandidato"></span></p>
+                    <p>Partido: <span id="partido"></span></p>
+                </div>
+            </div>
 
+            <div id="mensagem" class="mensagem">
+                Digite o número do candidato
+            </div>
+
+        </section>
+
+        <section class="painel">
+
+            <div class="teclado">
+                <button class="tecla" onclick="digitar(1)">1</button>
+                <button class="tecla" onclick="digitar(2)">2</button>
+                <button class="tecla" onclick="digitar(3)">3</button>
+
+                <button class="tecla" onclick="digitar(4)">4</button>
+                <button class="tecla" onclick="digitar(5)">5</button>
+                <button class="tecla" onclick="digitar(6)">6</button>
+
+                <button class="tecla" onclick="digitar(7)">7</button>
+                <button class="tecla" onclick="digitar(8)">8</button>
+                <button class="tecla" onclick="digitar(9)">9</button>
+
+                <div></div>
+                <button class="tecla" onclick="digitar(0)">0</button>
+                <div></div>
+            </div>
+
+            <div class="funcoes">
+                <button class="branco" onclick="branco()">BRANCO</button>
+                <button class="corrige" onclick="corrigir()">CORRIGE</button>
+                <button class="confirma" onclick="confirmar()">CONFIRMA</button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <section id="resultado" class="resultado">
+
+        <h2>📊 Resultado da simulação</h2>
+
+        <h3>Presidente</h3>
+        <p>Flávio Bolsonaro (22): <span id="pres22">0</span></p>
+        <p>Lula (13): <span id="pres13">0</span></p>
+        <p>Ronaldo Caiado (55): <span id="pres55">0</span></p>
+        <p>Brancos: <span id="presBrancos">0</span></p>
+        <p>Nulos: <span id="presNulos">0</span></p>
+
+        <h3>Governador</h3>
+        <p>Tarcísio de Freitas (10): <span id="gov10">0</span></p>
+        <p>Fernando Haddad (13): <span id="gov13">0</span></p>
+        <p>Vera Lúcia (16): <span id="gov16">0</span></p>
+        <p>Carlos Machado (21): <span id="gov21">0</span></p>
+        <p>Brancos: <span id="govBrancos">0</span></p>
+        <p>Nulos: <span id="govNulos">0</span></p>
+
+        <h3>Deputado Federal</h3>
+        <p>Lucas Pavanato (2211): <span id="fed2211">0</span></p>
+        <p>Erika Hilton (5070): <span id="fed5070">0</span></p>
+        <p>Sâmia Bomfim (5010): <span id="fed5010">0</span></p>
+        <p>Tabata Amaral (4010): <span id="fed4010">0</span></p>
+        <p>Brancos: <span id="fedBrancos">0</span></p>
+        <p>Nulos: <span id="fedNulos">0</span></p>
+
+        <h3>Deputado Estadual</h3>
+        <p>Eduarda Campopiano (22011): <span id="est22011">0</span></p>
+        <p>Eduardo Suplicy (13133): <span id="est13133">0</span></p>
+        <p>Carlos Giannazi (50789): <span id="est50789">0</span></p>
+        <p>Paula da Bancada Feminista (50500): <span id="est50500">0</span></p>
+        <p>Brancos: <span id="estBrancos">0</span></p>
+        <p>Nulos: <span id="estNulos">0</span></p>
+
+    </section>
+
+</div>
+
+<script>
+
+// ========================================
+// CANDIDATOS
+// ========================================
+
+const candidatos = {
+
+    presidente: {
+        "22": {
+            nome: "Flávio Bolsonaro",
+            partido: "PL",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/2/22/Fl%C3%A1vio_Bolsonaro_01.09.26.jpg"
+        },
+
+        "13": {
+            nome: "Lula",
+            partido: "PT",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/9/91/Foto_oficial_do_Presidente_da_Rep%C3%BAblica_Luiz_In%C3%A1cio_Lula_da_Silva.jpg"
+        },
+
+        "55": {
+            nome: "Ronaldo Caiado",
+            partido: "PSD",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Foto_oficial_de_Ronaldo_Caiado.jpg"
+        }
+    },
+
+    governador: {
+        "10": {
+            nome: "Tarcísio de Freitas",
+            partido: "Republicanos",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/7/74/Governador_do_Estado_de_S%C3%A3o_Paulo%2C_Tarc%C3%ADsio_de_Freitas_-_Foto_Oficial_%28cropped%29.jpg"
+        },
+
+        "13": {
+            nome: "Fernando Haddad",
+            partido: "PT",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/8/87/26.07.2026_-_Fernando_Haddad_%28cropped%29.jpg"
+        },
+
+        "16": {
+            nome: "Vera Lúcia",
+            partido: "PSTU",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/a/a6/2026_VERA_L%C3%9ACIA_CANDIDATA_GOVERNADORA_TSE_SP_%28250002536915%29.jpg"
+        },
+
+        "21": {
+            nome: "Carlos Machado",
+            partido: "PCB",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/f/fe/2026_CARLOS_MACHADO_CANDIDATO_GOVERNADOR_TSE_SP_%28250002550913%29.jpg"
+        }
+    },
+
+    federal: {
+        "2211": {
+            nome: "Lucas Pavanato",
+            partido: "PL",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Lucas_Pavanato.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
+        },
+
+        "5070": {
+            nome: "Erika Hilton",
+            partido: "PSOL",
+            foto: "https://media.gazetadopovo.com.br/2026/08/11180424/0d9a5870-660x372.jpg.webp"
+        },
+
+        "5010": {
+            nome: "Sâmia Bomfim",
+            partido: "PSOL",
+            foto: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/S%C3%A2mia_Bomfim_01.jpg/1920px-S%C3%A2mia_Bomfim_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        },
+
+        "4010": {
+            nome: "Tabata Amaral",
+            partido: "PSB",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/f/f5/2026_TABATA_AMARAL_CANDIDATA_DEPUTADA_FEDERAL_SP_%28250002539435%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
+        }
+    },
+
+    estadual: {
+        "22011": {
+            nome: "Eduarda Campopiano",
+            partido: "PL",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/6/6b/2026_EDUARDA_CAMPOPIANO_CANDIDATA_DEP_ESTADUAL_%28250002536384%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
+        },
+
+        "13133": {
+            nome: "Eduardo Suplicy",
+            partido: "PT",
+            foto: "https://upload.wikimedia.org/wikipedia/commons/7/74/Eduardo_Suplicy.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
+        },
+
+        "50789": {
+            nome: "Carlos Giannazi",
+            partido: "PSOL",
+            foto: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Carlos_Giannazi.jpg/960px-Carlos_Giannazi.jpg?utm_source=commons.wikimedia.org&utm_campaign=gallery&utm_content=thumbnail"
+        },
+
+        "50500": {
+            nome: "Paula da Bancada Feminista",
+            partido: "PSOL",
+            foto: "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e6/Bancada_Feminista_do_PSOL.jpg/1920px-Bancada_Feminista_do_PSOL.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+        }
+    }
+};
+
+
+// ========================================
+// CONFIGURAÇÃO DOS CARGOS
+// ========================================
+
+const cargos = [
+    "presidente",
+    "governador",
+    "federal",
+    "estadual"
+];
+
+const nomesCargos = {
+    presidente: "PRESIDENTE",
+    governador: "GOVERNADOR",
+    federal: "DEPUTADO FEDERAL",
+    estadual: "DEPUTADO ESTADUAL"
+};
+
+const limites = {
+    presidente: 2,
+    governador: 2,
+    federal: 4,
+    estadual: 5
+};
+
+
+// ========================================
+// ESTADO DA VOTAÇÃO
+// ========================================
+
+let etapaAtual = 0;
+let numeroDigitado = "";
+let votoConfirmado = false;
+let votacaoEncerrada = false;
+
+
+// ========================================
+// CONTADORES DE VOTOS
+// ========================================
+
+const votos = {
+    presidente: {
+        "22": 0,
+        "13": 0,
+        "55": 0,
+        branco: 0,
+        nulo: 0
+    },
+
+    governador: {
+        "10": 0,
+        "13": 0,
+        "16": 0,
+        "21": 0,
+        branco: 0,
+        nulo: 0
+    },
+
+    federal: {
+        "2211": 0,
+        "5070": 0,
+        "5010": 0,
+        "4010": 0,
+        branco: 0,
+        nulo: 0
+    },
+
+    estadual: {
+        "22011": 0,
+        "13133": 0,
+        "50789": 0,
+        "50500": 0,
+        branco: 0,
+        nulo: 0
+    }
+};
+
+
+// ========================================
+// FUNÇÕES PRINCIPAIS
+// ========================================
+
+function cargoAtual() {
+    return cargos[etapaAtual];
+}
+
+
+function digitar(numero) {
+    if (votoConfirmado || votacaoEncerrada) return;
+
+    if (numeroDigitado === "BRANCO") return;
+
+    if (numeroDigitado.length >= limites[cargoAtual()]) {
+        return;
     }
 
-    const loop = setInterval(() => {
+    numeroDigitado += String(numero);
 
-      const pipePosition = pipe.offsetLeft;
+    atualizarTela();
+}
 
-      const marioPosition = +window
-        .getComputedStyle(mario)
-        .bottom.replace('px', '');
 
-      console.log(marioPosition);
+function atualizarTela() {
+    const cargo = cargoAtual();
 
-      if (pipePosition <= 120 &&
-        pipePosition > 0 &&
-        marioPosition < 80) {
+    document.getElementById("tituloCargo").textContent =
+        "ELEIÇÃO PARA " + nomesCargos[cargo];
 
-        pipe.style.animation = "none";
-        pipe.style.left = `${pipePosition}px`;
+    document.getElementById("numero").textContent =
+        numeroDigitado === "BRANCO" ? "BRANCO" : numeroDigitado;
 
-        mario.style.animation = "none";
-        mario.style.bottom = `${marioPosition}px`;
+    const lista = candidatos[cargo];
+    const candidato = lista[numeroDigitado];
 
-        mario.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwFqdNBh-rw5eXctYibZ8KPHNZYp5IHi8g6HZkZlNhnwx_PRt0JkwAdJ26&s=10";
+    const caixa = document.getElementById("candidato");
+    const mensagem = document.getElementById("mensagem");
+    const foto = document.getElementById("foto");
 
-        mario.style.width = "60px";
-        mario.style.marginLeft = "50px";
+    if (candidato) {
+        caixa.style.display = "flex";
+        mensagem.style.display = "none";
 
-        clearInterval(loop);
-      }
+        if (candidato.foto) {
+            foto.style.display = "block";
+            foto.src = candidato.foto;
+        } else {
+            foto.style.display = "none";
+            foto.removeAttribute("src");
+        }
 
-    }, 10);
+        document.getElementById("nome").textContent =
+            candidato.nome;
 
-    document.addEventListener('touchstart', jump);
-    document.addEventListener('keydown', jump);
+        document.getElementById("numeroCandidato").textContent =
+            numeroDigitado;
 
-  </script>
+        document.getElementById("partido").textContent =
+            candidato.partido;
+
+    } else {
+        caixa.style.display = "none";
+        mensagem.style.display = "block";
+
+        if (numeroDigitado === "BRANCO") {
+            mensagem.textContent = "VOTO EM BRANCO";
+
+        } else if (
+            numeroDigitado.length === limites[cargo]
+        ) {
+            mensagem.textContent = "❌ NÚMERO INVÁLIDO";
+
+        } else {
+            mensagem.textContent =
+                "Digite o número do candidato";
+        }
+    }
+}
+
+
+// ========================================
+// CORRIGIR E VOTO EM BRANCO
+// ========================================
+
+function corrigir() {
+    if (votoConfirmado || votacaoEncerrada) return;
+
+    numeroDigitado = "";
+
+    atualizarTela();
+}
+
+
+function branco() {
+    if (votoConfirmado || votacaoEncerrada) return;
+
+    numeroDigitado = "BRANCO";
+
+    atualizarTela();
+}
+
+
+// ========================================
+// CONFIRMAR VOTO
+// ========================================
+
+function confirmar() {
+    if (votoConfirmado || votacaoEncerrada) return;
+
+    const cargo = cargoAtual();
+    const lista = candidatos[cargo];
+    const contagem = votos[cargo];
+
+    if (
+        numeroDigitado !== "BRANCO" &&
+        numeroDigitado.length !== limites[cargo]
+    ) {
+        alert(
+            "Digite os " +
+            limites[cargo] +
+            " números ou selecione BRANCO."
+        );
+
+        return;
+    }
+
+    if (numeroDigitado === "BRANCO") {
+        contagem.branco++;
+
+    } else if (lista[numeroDigitado]) {
+        contagem[numeroDigitado]++;
+
+    } else {
+        contagem.nulo++;
+    }
+
+    finalizarVoto();
+}
+
+
+// ========================================
+// FINALIZAR E AVANÇAR
+// ========================================
+
+function finalizarVoto() {
+    votoConfirmado = true;
+
+    document.getElementById("tela").innerHTML = `
+        <div style="text-align:center;width:100%">
+            <h1 style="font-size:40px">✓</h1>
+            <h2>VOTO CONFIRMADO</h2>
+            <p style="margin-top:15px">
+                ${nomesCargos[cargoAtual()]}
+            </p>
+        </div>
+    `;
+
+    atualizarResultados();
+
+    setTimeout(avancarEtapa, 2000);
+}
+
+
+function avancarEtapa() {
+    etapaAtual++;
+
+    if (etapaAtual < cargos.length) {
+        numeroDigitado = "";
+        votoConfirmado = false;
+
+        reconstruirTela();
+        atualizarTela();
+
+        return;
+    }
+
+    votacaoEncerrada = true;
+const som = new Audio("./pilili.mp3");
+som.currentTime = 0;
+som.play().catch(erro => {
+    console.log("Erro ao tocar o som:", erro);
+});
+    document.getElementById("tela").innerHTML = `
+        <div style="text-align:center;width:100%">
+            <h1 style="font-size:40px">✓</h1>
+            <h2>FIM DA VOTAÇÃO</h2>
+            <p style="margin-top:15px">
+                Obrigado por votar!
+            </p>
+        </div>
+    `;
+
+    setTimeout(novoEleitor, 3000);
+}
+
+
+// ========================================
+// RECONSTRUIR A TELA
+// ========================================
+
+function reconstruirTela() {
+    document.getElementById("tela").innerHTML = `
+        <div class="titulo" id="tituloCargo"></div>
+
+        <div id="numero" class="numero"></div>
+
+        <div id="candidato" class="candidato">
+            <img id="foto" src="" alt="Foto do candidato">
+
+            <div class="dados">
+                <p><strong id="nome"></strong></p>
+                <p>Número: <span id="numeroCandidato"></span></p>
+                <p>Partido: <span id="partido"></span></p>
+            </div>
+        </div>
+
+        <div id="mensagem" class="mensagem">
+            Digite o número do candidato
+        </div>
+    `;
+}
+
+
+// ========================================
+// PRÓXIMO ELEITOR
+// ========================================
+
+function novoEleitor() {
+    etapaAtual = 0;
+    numeroDigitado = "";
+    votoConfirmado = false;
+    votacaoEncerrada = false;
+
+    reconstruirTela();
+    atualizarTela();
+
+    // Mantém os resultados dos eleitores anteriores.
+    atualizarResultados();
+}
+
+
+// ========================================
+// ATUALIZAR RESULTADOS
+// ========================================
+
+function atualizarResultados() {
+
+    // PRESIDENTE
+    document.getElementById("pres22").textContent =
+        votos.presidente["22"];
+
+    document.getElementById("pres13").textContent =
+        votos.presidente["13"];
+
+    document.getElementById("pres55").textContent =
+        votos.presidente["55"];
+
+    document.getElementById("presBrancos").textContent =
+        votos.presidente.branco;
+
+    document.getElementById("presNulos").textContent =
+        votos.presidente.nulo;
+
+
+    // GOVERNADOR
+    document.getElementById("gov10").textContent =
+        votos.governador["10"];
+
+    document.getElementById("gov13").textContent =
+        votos.governador["13"];
+
+    document.getElementById("gov16").textContent =
+        votos.governador["16"];
+
+    document.getElementById("gov21").textContent =
+        votos.governador["21"];
+
+    document.getElementById("govBrancos").textContent =
+        votos.governador.branco;
+
+    document.getElementById("govNulos").textContent =
+        votos.governador.nulo;
+
+
+    // DEPUTADO FEDERAL
+    document.getElementById("fed2211").textContent =
+        votos.federal["2211"];
+
+    document.getElementById("fed5070").textContent =
+        votos.federal["5070"];
+
+    document.getElementById("fed5010").textContent =
+        votos.federal["5010"];
+
+    document.getElementById("fed4010").textContent =
+        votos.federal["4010"];
+
+    document.getElementById("fedBrancos").textContent =
+        votos.federal.branco;
+
+    document.getElementById("fedNulos").textContent =
+        votos.federal.nulo;
+
+
+    // DEPUTADO ESTADUAL
+    document.getElementById("est22011").textContent =
+        votos.estadual["22011"];
+
+    document.getElementById("est13133").textContent =
+        votos.estadual["13133"];
+
+    document.getElementById("est50789").textContent =
+        votos.estadual["50789"];
+
+    document.getElementById("est50500").textContent =
+        votos.estadual["50500"];
+
+    document.getElementById("estBrancos").textContent =
+        votos.estadual.branco;
+
+    document.getElementById("estNulos").textContent =
+        votos.estadual.nulo;
+}
+
+
+// ========================================
+// INICIALIZAÇÃO
+// ========================================
+
+atualizarTela();
+atualizarResultados();
+
+</script>
 
 </body>
-
 </html>
