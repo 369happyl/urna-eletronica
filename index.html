@@ -20,14 +20,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding: 8px;
 }
 
 .urna {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     background: #d9d9d9;
-    padding: clamp(10px, 2vw, 24px);
+    padding: clamp(8px, 2vw, 25px);
     border-radius: 15px;
     box-shadow: 0 15px 40px #0008;
 }
@@ -38,7 +38,7 @@ body {
 }
 
 .topo h1 {
-    font-size: clamp(18px, 3vw, 28px);
+    font-size: clamp(16px, 3vw, 28px);
 }
 
 .topo p {
@@ -51,26 +51,35 @@ body {
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    gap: 12px;
+    gap: 10px;
     width: 100%;
 }
 
 .tela {
-    flex: 1.3;
+    flex: 1;
     min-width: 0;
-    min-height: 340px;
+    min-height: 300px;
     background: #eee;
     border: 5px solid #333;
-    padding: clamp(12px, 2vw, 25px);
+    padding: clamp(8px, 2vw, 25px);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
 .titulo {
-    font-size: clamp(12px, 1.8vw, 18px);
+    font-size: clamp(10px, 1.8vw, 18px);
     margin-bottom: 20px;
     font-weight: bold;
+}
+
+/* Imagem inicial no lugar do título */
+.imagem-inicial {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    margin-bottom: 20px;
 }
 
 .numero {
@@ -92,24 +101,24 @@ body {
 }
 
 .candidato img {
-    width: clamp(75px, 10vw, 110px);
-    height: clamp(85px, 12vw, 130px);
+    width: clamp(55px, 10vw, 110px);
+    height: clamp(65px, 12vw, 130px);
     object-fit: cover;
     border: 2px solid #222;
 }
 
 .dados {
-    font-size: clamp(12px, 1.7vw, 16px);
+    font-size: clamp(10px, 1.7vw, 16px);
     line-height: 1.6;
     overflow-wrap: anywhere;
 }
 
 .dados strong {
-    font-size: clamp(15px, 2vw, 22px);
+    font-size: clamp(13px, 2vw, 22px);
 }
 
 .mensagem {
-    font-size: clamp(13px, 2vw, 22px);
+    font-size: clamp(12px, 2vw, 22px);
     font-weight: bold;
     overflow-wrap: anywhere;
 }
@@ -126,21 +135,21 @@ body {
 
 .teclado {
     background: #222;
-    padding: clamp(8px, 1.5vw, 15px);
+    padding: clamp(6px, 1.5vw, 15px);
     border-radius: 10px;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(5px, 1vw, 10px);
+    gap: clamp(4px, 1vw, 10px);
 }
 
 .tecla {
     min-width: 0;
-    height: clamp(42px, 8vw, 65px);
+    height: clamp(38px, 8vw, 65px);
     border: none;
     border-radius: 6px;
     background: #111;
     color: white;
-    font-size: clamp(17px, 3vw, 24px);
+    font-size: clamp(16px, 3vw, 24px);
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 3px #000;
@@ -163,12 +172,11 @@ button {
 
 .funcoes button {
     width: 100%;
-    padding: 13px 5px;
-    font-size: clamp(11px, 1.6vw, 14px);
+    padding: clamp(8px, 1.5vw, 15px) 3px;
+    font-size: clamp(9px, 1.6vw, 14px);
     font-weight: bold;
     cursor: pointer;
     border: none;
-    border-radius: 3px;
 }
 
 .branco {
@@ -211,147 +219,29 @@ button {
     margin: 6px 0;
 }
 
-/* TELA DE ABERTURA */
-.abertura {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #222;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.abertura img {
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    max-height: 80vh;
-    object-fit: contain;
-}
-
-/* AJUSTES PARA CELULARES */
-@media (max-width: 600px) {
-    body {
-        align-items: flex-start;
-        padding: 10px;
-    }
-
-    .urna {
-        max-width: 450px;
-        padding: 12px;
-    }
-
-    .topo {
-        margin-bottom: 12px;
-    }
-
+@media (max-width: 380px) {
     .conteudo {
-        flex-direction: column;
-        gap: 12px;
+        gap: 5px;
     }
 
     .tela {
-        flex: none;
-        width: 100%;
-        min-height: 300px;
-        border-width: 4px;
-        padding: 16px;
-    }
-
-    .painel {
-        flex: none;
-        width: 100%;
+        min-height: 260px;
+        border-width: 3px;
     }
 
     .teclado {
-        padding: 12px;
-        gap: 8px;
+        padding: 5px;
+        gap: 4px;
     }
 
     .tecla {
-        height: 52px;
-        font-size: 22px;
-    }
-
-    .funcoes {
-        flex-direction: row;
-        gap: 7px;
-    }
-
-    .funcoes button {
-        flex: 1;
-        padding: 14px 3px;
-        font-size: 11px;
-    }
-
-    .candidato {
-        flex-direction: row;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .candidato img {
-        flex-shrink: 0;
-        width: 85px;
-        height: 105px;
-    }
-
-    .dados {
-        font-size: 12px;
-    }
-
-    .dados strong {
-        font-size: 15px;
-    }
-
-    .titulo {
-        font-size: 15px;
-        margin-bottom: 15px;
-    }
-
-    .numero {
-        font-size: 32px;
-        margin-bottom: 15px;
-    }
-
-    .mensagem {
-        font-size: 15px;
-    }
-}
-
-@media (max-width: 350px) {
-    .urna {
-        padding: 8px;
-    }
-
-    .tela {
-        padding: 10px;
-        min-height: 260px;
-    }
-
-    .candidato img {
-        width: 70px;
-        height: 90px;
-    }
-
-    .tecla {
-        height: 44px;
+        height: 35px;
     }
 }
 </style>
 </head>
 
 <body>
-
-<!-- ABERTURA: aparece durante 1 segundo -->
-<div class="abertura" id="abertura">
-    <img
-        src="https://www.candidorodrigues.sp.gov.br/uploads/images/17660dfba17d0ddf9ba3dcfb60606257.png"
-        alt="Justiça Eleitoral"
-    >
-</div>
 
 <div class="urna">
 
@@ -364,7 +254,15 @@ button {
 
         <section class="tela" id="tela">
 
-            <div class="titulo" id="tituloCargo">
+            <!-- A imagem ocupa o lugar do título inicial -->
+            <img
+                id="imagemInicial"
+                class="imagem-inicial"
+                src="https://www.candidorodrigues.sp.gov.br/uploads/images/17660dfba17d0ddf9ba3dcfb60606257.png"
+                alt="Justiça Eleitoral"
+            >
+
+            <div class="titulo" id="tituloCargo" style="display: none;">
                 ELEIÇÃO PARA PRESIDENTE
             </div>
 
@@ -597,6 +495,7 @@ let etapaAtual = 0;
 let numeroDigitado = "";
 let votoConfirmado = false;
 let votacaoEncerrada = false;
+let aberturaTerminou = false;
 
 
 // ========================================
@@ -649,8 +548,10 @@ function cargoAtual() {
     return cargos[etapaAtual];
 }
 
+
 function digitar(numero) {
-    if (votoConfirmado || votacaoEncerrada) return;
+    if (!aberturaTerminou || votoConfirmado || votacaoEncerrada) return;
+
     if (numeroDigitado === "BRANCO") return;
 
     if (numeroDigitado.length >= limites[cargoAtual()]) {
@@ -658,8 +559,10 @@ function digitar(numero) {
     }
 
     numeroDigitado += String(numero);
+
     atualizarTela();
 }
+
 
 function atualizarTela() {
     const cargo = cargoAtual();
@@ -705,11 +608,14 @@ function atualizarTela() {
         if (numeroDigitado === "BRANCO") {
             mensagem.textContent = "VOTO EM BRANCO";
 
-        } else if (numeroDigitado.length === limites[cargo]) {
+        } else if (
+            numeroDigitado.length === limites[cargo]
+        ) {
             mensagem.textContent = "❌ NÚMERO INVÁLIDO";
 
         } else {
-            mensagem.textContent = "Digite o número do candidato";
+            mensagem.textContent =
+                "Digite o número do candidato";
         }
     }
 }
@@ -720,16 +626,19 @@ function atualizarTela() {
 // ========================================
 
 function corrigir() {
-    if (votoConfirmado || votacaoEncerrada) return;
+    if (!aberturaTerminou || votoConfirmado || votacaoEncerrada) return;
 
     numeroDigitado = "";
+
     atualizarTela();
 }
 
+
 function branco() {
-    if (votoConfirmado || votacaoEncerrada) return;
+    if (!aberturaTerminou || votoConfirmado || votacaoEncerrada) return;
 
     numeroDigitado = "BRANCO";
+
     atualizarTela();
 }
 
@@ -739,7 +648,7 @@ function branco() {
 // ========================================
 
 function confirmar() {
-    if (votoConfirmado || votacaoEncerrada) return;
+    if (!aberturaTerminou || votoConfirmado || votacaoEncerrada) return;
 
     const cargo = cargoAtual();
     const lista = candidatos[cargo];
@@ -750,16 +659,20 @@ function confirmar() {
         numeroDigitado.length !== limites[cargo]
     ) {
         alert(
-            "Digite os " + limites[cargo] +
+            "Digite os " +
+            limites[cargo] +
             " números ou selecione BRANCO."
         );
+
         return;
     }
 
     if (numeroDigitado === "BRANCO") {
         contagem.branco++;
+
     } else if (lista[numeroDigitado]) {
         contagem[numeroDigitado]++;
+
     } else {
         contagem.nulo++;
     }
@@ -786,8 +699,10 @@ function finalizarVoto() {
     `;
 
     atualizarResultados();
+
     setTimeout(avancarEtapa, 2000);
 }
+
 
 function avancarEtapa() {
     etapaAtual++;
@@ -798,6 +713,7 @@ function avancarEtapa() {
 
         reconstruirTela();
         atualizarTela();
+
         return;
     }
 
@@ -862,6 +778,8 @@ function novoEleitor() {
 
     reconstruirTela();
     atualizarTela();
+
+    // Mantém os resultados dos eleitores anteriores.
     atualizarResultados();
 }
 
@@ -871,36 +789,82 @@ function novoEleitor() {
 // ========================================
 
 function atualizarResultados() {
+
     // PRESIDENTE
-    document.getElementById("pres22").textContent = votos.presidente["22"];
-    document.getElementById("pres13").textContent = votos.presidente["13"];
-    document.getElementById("pres55").textContent = votos.presidente["55"];
-    document.getElementById("presBrancos").textContent = votos.presidente.branco;
-    document.getElementById("presNulos").textContent = votos.presidente.nulo;
+    document.getElementById("pres22").textContent =
+        votos.presidente["22"];
+
+    document.getElementById("pres13").textContent =
+        votos.presidente["13"];
+
+    document.getElementById("pres55").textContent =
+        votos.presidente["55"];
+
+    document.getElementById("presBrancos").textContent =
+        votos.presidente.branco;
+
+    document.getElementById("presNulos").textContent =
+        votos.presidente.nulo;
+
 
     // GOVERNADOR
-    document.getElementById("gov10").textContent = votos.governador["10"];
-    document.getElementById("gov13").textContent = votos.governador["13"];
-    document.getElementById("gov16").textContent = votos.governador["16"];
-    document.getElementById("gov21").textContent = votos.governador["21"];
-    document.getElementById("govBrancos").textContent = votos.governador.branco;
-    document.getElementById("govNulos").textContent = votos.governador.nulo;
+    document.getElementById("gov10").textContent =
+        votos.governador["10"];
+
+    document.getElementById("gov13").textContent =
+        votos.governador["13"];
+
+    document.getElementById("gov16").textContent =
+        votos.governador["16"];
+
+    document.getElementById("gov21").textContent =
+        votos.governador["21"];
+
+    document.getElementById("govBrancos").textContent =
+        votos.governador.branco;
+
+    document.getElementById("govNulos").textContent =
+        votos.governador.nulo;
+
 
     // DEPUTADO FEDERAL
-    document.getElementById("fed2211").textContent = votos.federal["2211"];
-    document.getElementById("fed5070").textContent = votos.federal["5070"];
-    document.getElementById("fed5010").textContent = votos.federal["5010"];
-    document.getElementById("fed4010").textContent = votos.federal["4010"];
-    document.getElementById("fedBrancos").textContent = votos.federal.branco;
-    document.getElementById("fedNulos").textContent = votos.federal.nulo;
+    document.getElementById("fed2211").textContent =
+        votos.federal["2211"];
+
+    document.getElementById("fed5070").textContent =
+        votos.federal["5070"];
+
+    document.getElementById("fed5010").textContent =
+        votos.federal["5010"];
+
+    document.getElementById("fed4010").textContent =
+        votos.federal["4010"];
+
+    document.getElementById("fedBrancos").textContent =
+        votos.federal.branco;
+
+    document.getElementById("fedNulos").textContent =
+        votos.federal.nulo;
+
 
     // DEPUTADO ESTADUAL
-    document.getElementById("est22011").textContent = votos.estadual["22011"];
-    document.getElementById("est13133").textContent = votos.estadual["13133"];
-    document.getElementById("est50789").textContent = votos.estadual["50789"];
-    document.getElementById("est50500").textContent = votos.estadual["50500"];
-    document.getElementById("estBrancos").textContent = votos.estadual.branco;
-    document.getElementById("estNulos").textContent = votos.estadual.nulo;
+    document.getElementById("est22011").textContent =
+        votos.estadual["22011"];
+
+    document.getElementById("est13133").textContent =
+        votos.estadual["13133"];
+
+    document.getElementById("est50789").textContent =
+        votos.estadual["50789"];
+
+    document.getElementById("est50500").textContent =
+        votos.estadual["50500"];
+
+    document.getElementById("estBrancos").textContent =
+        votos.estadual.branco;
+
+    document.getElementById("estNulos").textContent =
+        votos.estadual.nulo;
 }
 
 
@@ -908,18 +872,29 @@ function atualizarResultados() {
 // INICIALIZAÇÃO
 // ========================================
 
-atualizarTela();
+// Mantém a tela inicial sem título durante a abertura.
+document.getElementById("numero").style.display = "none";
+document.getElementById("candidato").style.display = "none";
+document.getElementById("mensagem").style.display = "none";
+
 atualizarResultados();
 
-// A imagem cobre a página por 1 segundo.
-// Depois é removida sem mexer no layout da urna.
+// Após 4 segundos, remove a imagem e inicia a votação.
 setTimeout(() => {
-    const abertura = document.getElementById("abertura");
+    const imagem = document.getElementById("imagemInicial");
 
-    if (abertura) {
-        abertura.remove();
+    if (imagem) {
+        imagem.remove();
     }
-}, 1000);
+
+    document.getElementById("tituloCargo").style.display = "";
+    document.getElementById("numero").style.display = "";
+    document.getElementById("mensagem").style.display = "";
+
+    aberturaTerminou = true;
+
+    atualizarTela();
+}, 4000);
 
 </script>
 
